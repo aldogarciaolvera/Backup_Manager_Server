@@ -87,7 +87,7 @@ require_command() {
 generate_backup_id() {
 
     local timestamp
-    local random
+    local random_hex
 
     timestamp="$(date +%Y%m%d-%H%M%S)"
 

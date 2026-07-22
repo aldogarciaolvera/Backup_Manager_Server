@@ -91,13 +91,7 @@ backup_server() {
     log_info "Archivo: $final_archive"
     log_info "Tamaño original: $original_size"
     log_info "Tamaño comprimido: $(get_archive_size "$final_archive")"
-    log_info "Archivos: file_count="$(
-    tar \
-        --use-compress-program=zstd \
-        --list \
-        --file="$final_archive" |
-    wc -l
-    )""
+    log_info "Archivos: $file_count"
     log_info "Duración: ${duration}s"
 
     finish_managed_workspace

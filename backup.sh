@@ -22,14 +22,19 @@ show_version() {
     printf 'Backup Manager %s\n' "$(tr -d '[:space:]' < "$version_file")"
 }
 
-LOCK_FILE="/run/lock/backup-manager.lock"
+acquire_lock() {
+    local lock_file="${BACKUP_MANAGER_LOCK_FILE:-/run/lock/backup-manager.lock}"
 
-exec 9>"$LOCK_FILE"
+    if ! exec 9>"$lock_file"; then
+        log_error "No se pudo abrir el archivo de bloqueo: $lock_file"
+        return 1
+    fi
 
-if ! flock -n 9; then
-    log_error "Ya existe otro respaldo en ejecución"
-    exit 1
-fi
+    if ! flock -n 9; then
+        log_error "Ya existe otro respaldo en ejecución"
+        return 1
+    fi
+}
 
 show_usage() {
     cat <<EOF
@@ -88,6 +93,21 @@ backup_all() {
 
 main() {
     local command="${1:-}"
+    local restore_type
+
+    case "$command" in
+        --version|-v|version)
+            show_version
+            return 0
+            ;;
+
+        help|--help|-h|"")
+            show_usage
+            return 0
+            ;;
+    esac
+
+    acquire_lock || return 1
 
     case "$command" in
         server)
@@ -106,17 +126,13 @@ main() {
             backup_all
             ;;
 
-	cleanup)
+        cleanup)
             if [[ "${2:-}" == "--dry-run" ]]; then
                 cleanup_all_backups true
             else
                 cleanup_all_backups false
             fi
-                ;;
-        
-        --version|-v|version)
-            show_version
-        ;;
+            ;;
 
         restore)
             restore_type="${2:-}"
@@ -124,30 +140,27 @@ main() {
             case "$restore_type" in
                 mysql)
                     restore_mysql \
-                    "${3:-latest}" \
-                    "${4:-evaluacion_tecnica_restore_test}" \
-                    "${5:-false}"
-                ;;
+                        "${3:-latest}" \
+                        "${4:-evaluacion_tecnica_restore_test}" \
+                        "${5:-false}"
+                    ;;
 
                 postgres)
                     restore_postgres \
-                    "${3:-latest}" \
-                    "${4:-dokploy}" \
-                    "${5:-dokploy_restore_test}" \
-                    "${6:-false}"
-                ;;
+                        "${3:-latest}" \
+                        "${4:-dokploy}" \
+                        "${5:-dokploy_restore_test}" \
+                        "${6:-false}"
+                    ;;
 
                 *)
                     log_error "Tipo de restauración inválido: $restore_type"
                     log_info "Opciones disponibles: mysql, postgres"
-                    exit 1
-                ;;
-        esac
-        ;;
-  
-      help|--help|-h|"")
-            show_usage
+                    return 1
+                    ;;
+            esac
             ;;
+
         *)
             log_error "Tipo de respaldo desconocido: $command"
             show_usage

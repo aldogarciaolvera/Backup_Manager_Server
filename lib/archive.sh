@@ -105,7 +105,7 @@ generate_archive_checksum() {
     checksum_file="${archive_path}.sha256"
 
     (
-        cd "$(dirname "$archive_path")"
+        cd "$(dirname "$archive_path")" || return 1
         sha256sum "$(basename "$archive_path")" > "$(basename "$checksum_file")"
     )
 
@@ -133,7 +133,7 @@ verify_archive_checksum() {
     log_info "Verificando checksum"
 
     (
-        cd "$(dirname "$checksum_file")"
+        cd "$(dirname "$checksum_file")" || return 1
         sha256sum --check "$(basename "$checksum_file")" >&2
     )
 

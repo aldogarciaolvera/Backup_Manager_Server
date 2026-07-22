@@ -104,7 +104,6 @@ prepare_postgres_database_restore() {
     local source_file="$1"
     local destination_file="$2"
     local source_database="$3"
-    local target_database="$4"
 
     if [[ ! -s "$source_file" ]]; then
         log_error "El dump PostgreSQL está vacío: $source_file"
