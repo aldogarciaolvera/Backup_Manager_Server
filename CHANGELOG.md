@@ -1,3 +1,9 @@
+## [1.0.2] - 2026-07-22
+
+### Changed
+
+- Preparación de la versión 1.0.2.
+
 # Changelog
 
 Todos los cambios importantes del proyecto se documentarán en este archivo.
