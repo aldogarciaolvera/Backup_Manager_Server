@@ -74,8 +74,7 @@ restore_postgres() {
     prepare_postgres_database_restore \
         "$extracted_sql" \
         "$prepared_sql" \
-        "$source_database" \
-        "$target_database"
+        "$source_database"
 
     log_warning "La base temporal será reemplazada: $target_database"
 

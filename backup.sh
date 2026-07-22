@@ -45,13 +45,19 @@ Uso:
   backup.sh all
   backup.sh cleanup
   backup.sh cleanup --dry-run
+  backup.sh restore server
+  backup.sh restore server latest
+  backup.sh restore server ARCHIVO DESTINO
+  backup.sh restore postgres
+  backup.sh restore postgres latest
+  backup.sh restore postgres ARCHIVO BASE_ORIGEN BASE_DESTINO
   backup.sh restore mysql
   backup.sh restore mysql latest
   backup.sh restore mysql ARCHIVO BASE_DESTINO
 
 Respaldos disponibles:
 
-  server    Respalda configuración y archivos principales del servidor
+  server      Respalda configuración y archivos principales del servidor
   postgres    Respalda PostgreSQL de Dokploy mediante pg_dumpall
   mysql       Respalda la base MySQL evaluacion_tecnica
   all         Ejecuta todos los respaldos
@@ -138,6 +144,12 @@ main() {
             restore_type="${2:-}"
 
             case "$restore_type" in
+                server)
+                    restore_server \
+                    "${3:-latest}" \
+                    "${4:-/tmp/server-restore-test}"
+                    ;;                
+
                 mysql)
                     restore_mysql \
                         "${3:-latest}" \

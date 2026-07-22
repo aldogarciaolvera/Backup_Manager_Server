@@ -25,5 +25,6 @@ source "$BACKUP_MANAGER_DIR/modules/backup/mysql.sh"
 
 source "$BACKUP_MANAGER_DIR/modules/restore/mysql.sh"
 source "$BACKUP_MANAGER_DIR/modules/restore/postgres.sh"
+source "$BACKUP_MANAGER_DIR/modules/restore/server.sh"
 
 enable_error_handling

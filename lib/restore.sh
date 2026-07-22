@@ -127,6 +127,10 @@ prepare_postgres_database_restore() {
             exit
         }
 
+        capturing && /^CREATE DATABASE / {
+            exit
+        }
+
         capturing {
             print
         }
