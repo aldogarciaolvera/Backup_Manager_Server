@@ -4,6 +4,28 @@ Todos los cambios importantes del proyecto se documentarán en este archivo.
 
 El formato está basado en Keep a Changelog y el proyecto usa Semantic Versioning.
 
+## 1.0.1 - 2026-07-22
+
+### Added
+
+- Safe server restore to an isolated destination
+- PostgreSQL restore to a protected temporary database
+- MySQL restore to a protected temporary database
+- CLI restore commands for server, PostgreSQL and MySQL
+
+### Fixed
+
+- PostgreSQL restore no longer includes `CREATE DATABASE` statements from subsequent databases in the `pg_dumpall` output
+- PostgreSQL restore CLI support is now documented in `--help`
+- Restore modules now validate archive integrity and SHA-256 checksums before importing
+- Temporary restore workspaces are cleaned after successful execution
+
+### Validated
+
+- Server restore: 1,795 files and 666 directories
+- PostgreSQL restore: 64 tables
+- MySQL restore: 5 tables
+
 ## [1.0.0] - 2026-07-21
 
 ### Added
