@@ -67,6 +67,8 @@ backup_server() {
         rsync \
             -aHAX \
             --numeric-ids \
+            --exclude="external-backup" \
+            --exclude="Respaldo Brau" \
             --exclude='.cache/' \
             --exclude='.local/share/Trash/' \
             "$SERVER_HOME/" \
