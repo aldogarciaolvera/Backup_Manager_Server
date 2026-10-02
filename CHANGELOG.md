@@ -1,3 +1,9 @@
+## [1.0.4] - 2026-10-02
+
+### Changed
+
+- Preparación de la versión 1.0.4.
+
 ## [1.0.3] - 2026-07-22
 
 ### Changed
