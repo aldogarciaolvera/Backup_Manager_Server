@@ -22,7 +22,7 @@ export TIMESTAMP="${TIMESTAMP:-$(date +'%Y-%m-%d_%H-%M-%S')}"
 # Directorios
 #######################################
 
-export BACKUP_ROOT="/mnt/storage/backups"
+export BACKUP_ROOT="/var/backups/backup-manager"
 
 export SERVER_DIR="$BACKUP_ROOT/server"
 export POSTGRES_DIR="$BACKUP_ROOT/postgres"
